@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect ,useContext } from 'react'
 import {
   Calendar,
   Car,
@@ -10,115 +10,150 @@ import {
   MapPin,
 } from 'lucide-react'
 import { Link } from 'react-router-dom'
-// Mock data for bookings
-const bookings = [
-  {
-    id: 'b1',
-    carId: '1',
-    carName: 'Tesla Model 3',
-    carImage:
-      'https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
-    startDate: '2023-07-15',
-    endDate: '2023-07-18',
-    location: 'New York',
-    status: 'Upcoming',
-    price: 267,
-  },
-  {
-    id: 'b2',
-    carId: '2',
-    carName: 'BMW X5',
-    carImage:
-      'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
-    startDate: '2023-06-10',
-    endDate: '2023-06-12',
-    location: 'Los Angeles',
-    status: 'Completed',
-    price: 360,
-  },
-  {
-    id: 'b3',
-    carId: '3',
-    carName: 'Mercedes C-Class',
-    carImage:
-      'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2031&q=80',
-    startDate: '2023-05-22',
-    endDate: '2023-05-25',
-    location: 'Chicago',
-    status: 'Completed',
-    price: 285,
-  },
-]
-const UserDashboard = () => {
+ import { AuthContext } from '../AuthContext'; 
+ import UserProfile from '../components/UserProfile'; // Adjust the import path as needed
+
+const UserDashboard = ({ userId }) => {
+  // For demo/testing: if no userId passed, fallback to 1
+const { user } = useContext(AuthContext);  // get logged-in user
+  const currentUserId = user?.id;
+
+  
+
   const [activeTab, setActiveTab] = useState('bookings')
-  // Mock user data
-  const user = {
-    name: 'John Doe',
-    email: 'john.doe@example.com',
-    phone: '+1 (555) 123-4567',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
-    memberSince: 'January 2023',
-  }
+  const [bookings, setBookings] = useState([])
+  const [loadingUser, setLoadingUser] = useState(true)
+  const [loadingBookings, setLoadingBookings] = useState(true)
+  const [errorUser, setErrorUser] = useState(null)
+  const [errorBookings, setErrorBookings] = useState(null)
+
+  useEffect(() => {
+    if (!currentUserId) return
+
+    setLoadingUser(true)
+    setErrorUser(null)
+    fetch(`http://localhost:5000/api/profile?user_id=${currentUserId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load profile')
+        return res.json()
+      })
+      .then((data) => {
+        if (data.success) {
+          setUser(data.user)
+        } else {
+          setErrorUser('Failed to fetch profile')
+        }
+      })
+      .catch(() => setErrorUser('Failed to fetch profile'))
+      .finally(() => setLoadingUser(false))
+
+    setLoadingBookings(true)
+    setErrorBookings(null)
+    fetch(`http://localhost:5000/api/bookings?user_id=${currentUserId}`)
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to load bookings')
+        return res.json()
+      })
+      .then((data) => {
+        if (data.success) {
+          setBookings(data.bookings)
+        } else {
+          setErrorBookings('Failed to fetch bookings')
+        }
+      })
+      .catch(() => setErrorBookings('Failed to fetch bookings'))
+      .finally(() => setLoadingBookings(false))
+  }, [currentUserId])
+
   return (
-    <div className="bg-gray-50 min-h-screen w-full">
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">My Dashboard</h1>
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div className="w-full min-h-screen bg-gray-50">
+      <div className="container px-4 py-8 mx-auto">
+        <h1 className="mb-6 text-3xl font-bold text-gray-800">My Dashboard</h1>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           {/* Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6">
+            <div className="p-6 bg-white rounded-lg shadow-sm">
               <div className="flex flex-col items-center mb-6">
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-20 h-20 rounded-full object-cover mb-4"
-                />
-                <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
-                <p className="text-gray-600">{user.email}</p>
-                <div className="text-sm text-gray-500 mt-1 flex items-center">
-                  <Clock size={14} className="mr-1" />
-                  Member since {user.memberSince}
-                </div>
+                {loadingUser ? (
+                  <div className="w-20 h-20 mb-4 bg-gray-200 rounded-full animate-pulse" />
+                ) : user ? (
+                  <>
+                    <img
+                      src={user.avatar}
+                      alt={user.name}
+                      className="object-cover w-20 h-20 mb-4 rounded-full"
+                    />
+                    <h3 className="text-xl font-bold text-gray-800">{user.name}</h3>
+                    <p className="text-gray-600">{user.email}</p>
+                    <div className="flex items-center mt-1 text-sm text-gray-500">
+                      <Clock size={14} className="mr-1" />
+                      Member since {user.memberSince}
+                    </div>
+                  </>
+                ) : (
+                  <p className="text-red-500">Failed to load user info</p>
+                )}
               </div>
               <nav className="space-y-1">
                 <button
                   onClick={() => setActiveTab('bookings')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${activeTab === 'bookings' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`flex items-center w-full px-3 py-2 rounded-md ${
+                    activeTab === 'bookings'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
                   <Calendar size={18} className="mr-3" />
                   My Bookings
                 </button>
                 <button
                   onClick={() => setActiveTab('favorites')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${activeTab === 'favorites' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`flex items-center w-full px-3 py-2 rounded-md ${
+                    activeTab === 'favorites'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
                   <Car size={18} className="mr-3" />
                   Favorite Cars
                 </button>
                 <button
                   onClick={() => setActiveTab('payment')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${activeTab === 'payment' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`flex items-center w-full px-3 py-2 rounded-md ${
+                    activeTab === 'payment'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
                   <CreditCard size={18} className="mr-3" />
                   Payment Methods
                 </button>
                 <button
                   onClick={() => setActiveTab('profile')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${activeTab === 'profile' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`flex items-center w-full px-3 py-2 rounded-md ${
+                    activeTab === 'profile'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
                   <User size={18} className="mr-3" />
+                 
                   Profile Settings
                 </button>
                 <button
                   onClick={() => setActiveTab('settings')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${activeTab === 'settings' ? 'bg-blue-50 text-blue-700' : 'text-gray-700 hover:bg-gray-100'}`}
+                  className={`flex items-center w-full px-3 py-2 rounded-md ${
+                    activeTab === 'settings'
+                      ? 'bg-blue-50 text-blue-700'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                 >
                   <Settings size={18} className="mr-3" />
                   Account Settings
                 </button>
                 <Link
                   to="/"
-                  className="flex items-center w-full px-3 py-2 rounded-md text-red-600 hover:bg-red-50"
+                  className="flex items-center w-full px-3 py-2 text-red-600 rounded-md hover:bg-red-50"
                 >
                   <LogOut size={18} className="mr-3" />
                   Logout
@@ -126,29 +161,32 @@ const UserDashboard = () => {
               </nav>
             </div>
           </div>
+
           {/* Main Content */}
           <div className="lg:col-span-3">
             {/* Bookings Tab */}
             {activeTab === 'bookings' && (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">
-                  My Bookings
-                </h2>
-                {bookings.length > 0 ? (
+              <div className="p-6 bg-white rounded-lg shadow-sm">
+                <h2 className="mb-4 text-xl font-bold text-gray-800">My Bookings</h2>
+                {loadingBookings ? (
+                  <p className="text-gray-500">Loading bookings...</p>
+                ) : errorBookings ? (
+                  <p className="text-red-500">{errorBookings}</p>
+                ) : bookings.length > 0 ? (
                   <div className="space-y-6">
                     {bookings.map((booking) => (
                       <div
                         key={booking.id}
-                        className="border border-gray-200 rounded-lg p-4"
+                        className="p-4 border border-gray-200 rounded-lg"
                       >
-                        <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col gap-4 md:flex-row">
                           {/* Car Image */}
                           <div className="md:w-1/4">
-                            <div className="rounded-md overflow-hidden h-24 md:h-full">
+                            <div className="h-24 overflow-hidden rounded-md md:h-full">
                               <img
                                 src={booking.carImage}
                                 alt={booking.carName}
-                                className="w-full h-full object-cover"
+                                className="object-cover w-full h-full"
                               />
                             </div>
                           </div>
@@ -161,13 +199,9 @@ const UserDashboard = () => {
                               <div className="flex items-center text-gray-600">
                                 <Calendar size={16} className="mr-2" />
                                 <span>
-                                  {new Date(
-                                    booking.startDate,
-                                  ).toLocaleDateString()}{' '}
+                                  {new Date(booking.startDate).toLocaleDateString()}{' '}
                                   -{' '}
-                                  {new Date(
-                                    booking.endDate,
-                                  ).toLocaleDateString()}
+                                  {new Date(booking.endDate).toLocaleDateString()}
                                 </span>
                               </div>
                               <div className="flex items-center text-gray-600">
@@ -176,13 +210,17 @@ const UserDashboard = () => {
                               </div>
                             </div>
                             <div
-                              className={`mt-2 inline-block px-2 py-1 text-xs font-medium rounded-full ${booking.status === 'Upcoming' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800'}`}
+                              className={`mt-2 inline-block px-2 py-1 text-xs font-medium rounded-full ${
+                                booking.status === 'Upcoming'
+                                  ? 'bg-blue-100 text-blue-800'
+                                  : 'bg-green-100 text-green-800'
+                              }`}
                             >
                               {booking.status}
                             </div>
                           </div>
                           {/* Price and Actions */}
-                          <div className="md:w-1/4 flex flex-col justify-between items-end">
+                          <div className="flex flex-col items-end justify-between md:w-1/4">
                             <div className="text-right">
                               <div className="text-lg font-bold text-gray-800">
                                 ${booking.price}
@@ -192,7 +230,7 @@ const UserDashboard = () => {
                             <div className="mt-4 md:mt-0">
                               <Link
                                 to={`/car/${booking.carId}`}
-                                className="text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                className="text-sm font-medium text-blue-600 hover:text-blue-800"
                               >
                                 View Details
                               </Link>
@@ -203,13 +241,11 @@ const UserDashboard = () => {
                     ))}
                   </div>
                 ) : (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500">
-                      You don't have any bookings yet.
-                    </p>
+                  <div className="py-8 text-center">
+                    <p className="text-gray-500">You don't have any bookings yet.</p>
                     <Link
                       to="/cars"
-                      className="mt-4 inline-block text-blue-600 hover:text-blue-800 font-medium"
+                      className="inline-block mt-4 font-medium text-blue-600 hover:text-blue-800"
                     >
                       Browse Cars
                     </Link>
@@ -217,18 +253,16 @@ const UserDashboard = () => {
                 )}
               </div>
             )}
-            {/* Other tabs would be implemented similarly */}
+            {/* Other tabs placeholder */}
             {activeTab !== 'bookings' && (
-              <div className="bg-white rounded-lg shadow-sm p-6 text-center py-12">
-                <h2 className="text-xl font-bold text-gray-800 mb-4">
+              <div className="p-6 py-12 text-center bg-white rounded-lg shadow-sm">
+                <h2 className="mb-4 text-xl font-bold text-gray-800">
                   {activeTab === 'favorites' && 'Favorite Cars'}
                   {activeTab === 'payment' && 'Payment Methods'}
-                  {activeTab === 'profile' && 'Profile Settings'}
+                   {activeTab === 'profile' && <UserProfile />}
                   {activeTab === 'settings' && 'Account Settings'}
                 </h2>
-                <p className="text-gray-500">
-                  This section is under development.
-                </p>
+                <p className="text-gray-500">This section is under development.</p>
               </div>
             )}
           </div>
@@ -237,4 +271,5 @@ const UserDashboard = () => {
     </div>
   )
 }
+
 export default UserDashboard

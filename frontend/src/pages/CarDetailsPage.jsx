@@ -76,6 +76,136 @@ const cars = [
     ],
     rating: 4.7,
     reviews: 98,
+  },{
+    id: '3',
+    name: 'Audi Q7',
+    image:
+       'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2031&q=80 ',
+    price: 135,
+    category: 'SUV',
+    seats: 7,
+    transmission: 'Automatic',
+    fuelType: 'Gasoline',
+    year: 2022,
+    mileage: '22 mpg',
+    description: 'Description for Audi Q7 goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: [ 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2031&q=80 ',
+],
+    rating: 4.5,
+    reviews: 80,
+  },
+  {
+    id: '4',
+    name: 'Toyota Camry',
+    image:
+      'https://i.postimg.cc/NjSbp7B4/image.png',
+    price: 65,
+    category: 'Sedan',
+    seats: 5,
+    transmission: 'Automatic',
+    fuelType: 'Gasoline',
+    year: 2023,
+    mileage: '32 mpg',
+    description: 'Description for Toyota Camry goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://i.postimg.cc/NjSbp7B4/image.png'],
+    rating: 4.3,
+    reviews: 50,
+  },
+  {
+    id: '5',
+    name: 'Porsche 911',
+    image:
+      'https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+    price: 250,
+    category: 'Sports',
+    seats: 2,
+    transmission: 'Automatic',
+    fuelType: 'Gasoline',
+    year: 2022,
+    mileage: '20 mpg',
+    description: 'Description for Porsche 911 goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+],
+    rating: 4.8,
+    reviews: 120,
+  },
+  {
+    id: '6',
+    name: 'Range Rover Sport',
+    image:
+     'https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+    price: 180,
+    category: 'SUV',
+    seats: 5,
+    transmission: 'Automatic',
+    fuelType: 'Gasoline',
+    year: 2023,
+    mileage: '18 mpg',
+    description: 'Description for Range Rover Sport goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+],
+    rating: 4.6,
+    reviews: 95,
+  },
+  {
+    id: '7',
+    name: 'Chevrolet Corvette',
+    image:
+      'https://images.unsplash.com/photo-1566473965997-3de9c817e938?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+    price: 195,
+    category: 'Sports',
+    seats: 2,
+    transmission: 'Manual',
+    fuelType: 'Gasoline',
+    year: 2022,
+    mileage: '19 mpg',
+    description: 'Description for Chevrolet Corvette goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://images.unsplash.com/photo-1566473965997-3de9c817e938?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+],
+    rating: 4.7,
+    reviews: 110,
+  },
+  {
+    id: '8',
+    name: 'Ford Mustang',
+    image:
+      'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+
+    price: 85,
+    category: 'Sports',
+    seats: 4,
+    transmission: 'Manual',
+    fuelType: 'Gasoline',
+    year: 2022,
+    mileage: '21 mpg',
+    description: 'Description for Ford Mustang goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://images.unsplash.com/photo-1552519507-da3b142c6e3d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+],
+    rating: 4.4,
+    reviews: 75,
+  },{
+    id: '9',
+    name: 'Ford Mustang',
+    image:
+      'https://i.postimg.cc/sD1Nm253/image.png',
+    price: 85,
+    category: 'Sports',
+    seats: 4,
+    transmission: 'Manual',
+    fuelType: 'Gasoline',
+    year: 2022,
+    mileage: '21 mpg',
+    description: 'Description for Ford Mustang goes here.',
+    features: ['Feature 1', 'Feature 2', 'Feature 3'],
+    gallery: ['https://i.postimg.cc/sD1Nm253/image.png'],
+    rating: 4.4,
+    reviews: 75,
   },
 ];
 
@@ -89,14 +219,14 @@ const CarDetailsPage = () => {
 
   if (!car) {
     return (
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Car not found</h2>
-        <p className="text-gray-600 mb-8">
+      <div className="container px-4 py-16 mx-auto text-center">
+        <h2 className="mb-4 text-2xl font-bold text-gray-800">Car not found</h2>
+        <p className="mb-8 text-gray-600">
           The car you're looking for doesn't exist or has been removed.
         </p>
         <Link
           to="/cars"
-          className="text-blue-600 hover:text-blue-800 font-medium flex items-center justify-center"
+          className="flex items-center justify-center font-medium text-blue-600 hover:text-blue-800"
         >
           <ArrowLeft size={20} className="mr-2" />
           Back to all cars
@@ -117,34 +247,34 @@ const CarDetailsPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 w-full">
-      <div className="container mx-auto px-4 py-8">
+    <div className="w-full bg-gray-50">
+      <div className="container px-4 py-8 mx-auto">
         <Link
           to="/cars"
-          className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-6"
+          className="inline-flex items-center mb-6 text-blue-600 hover:text-blue-800"
         >
           <ArrowLeft size={20} className="mr-2" />
           Back to all cars
         </Link>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Car Details and Gallery */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg shadow-sm">
               {/* Main Image */}
               <div className="relative pb-[56.25%]">
                 <img
                   src={selectedImage || car.image}
                   alt={car.name}
-                  className="absolute inset-0 w-full h-full object-cover"
+                  className="absolute inset-0 object-cover w-full h-full"
                 />
-                <div className="absolute top-4 left-4 bg-blue-600 text-white text-sm font-bold uppercase px-3 py-1 rounded">
+                <div className="absolute px-3 py-1 text-sm font-bold text-white uppercase bg-blue-600 rounded top-4 left-4">
                   {car.category}
                 </div>
               </div>
               {/* Gallery */}
               <div className="p-4 border-t border-gray-100">
-                <h3 className="font-medium text-gray-700 mb-3">Gallery</h3>
-                <div className="flex space-x-2 overflow-x-auto pb-2">
+                <h3 className="mb-3 font-medium text-gray-700">Gallery</h3>
+                <div className="flex pb-2 space-x-2 overflow-x-auto">
                   {car.gallery.map((image, index) => (
                     <div
                       key={index}
@@ -156,7 +286,7 @@ const CarDetailsPage = () => {
                       <img
                         src={image}
                         alt={`${car.name} - image ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className="object-cover w-full h-full"
                       />
                     </div>
                   ))}
@@ -164,14 +294,14 @@ const CarDetailsPage = () => {
               </div>
             </div>
             {/* Car Details */}
-            <div className="bg-white rounded-lg shadow-sm mt-6 p-6">
-              <div className="flex justify-between items-start mb-4">
+            <div className="p-6 mt-6 bg-white rounded-lg shadow-sm">
+              <div className="flex items-start justify-between mb-4">
                 <div>
                   <h1 className="text-2xl font-bold text-gray-800">{car.name}</h1>
                   <div className="flex items-center mt-1">
                     <div className="flex items-center text-yellow-500">
                       <Star size={18} fill="currentColor" />
-                      <span className="ml-1 text-gray-800 font-medium">
+                      <span className="ml-1 font-medium text-gray-800">
                         {car.rating}
                       </span>
                     </div>
@@ -184,30 +314,30 @@ const CarDetailsPage = () => {
                   <span className="text-sm text-gray-500">per day</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+              <div className="grid grid-cols-2 gap-4 mb-6 md:grid-cols-4">
                 <div className="flex items-center">
-                  <Calendar size={20} className="text-gray-400 mr-2" />
+                  <Calendar size={20} className="mr-2 text-gray-400" />
                   <div>
                     <div className="text-sm text-gray-500">Year</div>
                     <div className="font-medium">{car.year}</div>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Users size={20} className="text-gray-400 mr-2" />
+                  <Users size={20} className="mr-2 text-gray-400" />
                   <div>
                     <div className="text-sm text-gray-500">Seats</div>
                     <div className="font-medium">{car.seats}</div>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Fuel size={20} className="text-gray-400 mr-2" />
+                  <Fuel size={20} className="mr-2 text-gray-400" />
                   <div>
                     <div className="text-sm text-gray-500">Fuel</div>
                     <div className="font-medium">{car.fuelType}</div>
                   </div>
                 </div>
                 <div className="flex items-center">
-                  <Gauge size={20} className="text-gray-400 mr-2" />
+                  <Gauge size={20} className="mr-2 text-gray-400" />
                   <div>
                     <div className="text-sm text-gray-500">Mileage</div>
                     <div className="font-medium">{car.mileage}</div>
@@ -215,15 +345,15 @@ const CarDetailsPage = () => {
                 </div>
               </div>
               <div className="mb-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-2">Description</h3>
+                <h3 className="mb-2 text-lg font-bold text-gray-800">Description</h3>
                 <p className="text-gray-600">{car.description}</p>
               </div>
               <div>
-                <h3 className="text-lg font-bold text-gray-800 mb-3">Features</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                <h3 className="mb-3 text-lg font-bold text-gray-800">Features</h3>
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                   {car.features.map((feature, index) => (
                     <div key={index} className="flex items-center">
-                      <Check size={18} className="text-green-500 mr-2" />
+                      <Check size={18} className="mr-2 text-green-500" />
                       <span className="text-gray-700">{feature}</span>
                     </div>
                   ))}
@@ -233,16 +363,16 @@ const CarDetailsPage = () => {
           </div>
           {/* Booking Form */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">Book this car</h3>
+            <div className="sticky p-6 bg-white rounded-lg shadow-sm top-24">
+              <h3 className="mb-4 text-lg font-bold text-gray-800">Book this car</h3>
               <form onSubmit={handleSubmit}>
                 <div className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block mb-1 text-sm font-medium text-gray-700">
                       Pick-up Location
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <MapPin size={18} className="text-gray-400" />
                       </div>
                       <select
@@ -261,11 +391,11 @@ const CarDetailsPage = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block mb-1 text-sm font-medium text-gray-700">
                       Pick-up Date
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Calendar size={18} className="text-gray-400" />
                       </div>
                       <input
@@ -278,11 +408,11 @@ const CarDetailsPage = () => {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                    <label className="block mb-1 text-sm font-medium text-gray-700">
                       Return Date
                     </label>
                     <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                         <Calendar size={18} className="text-gray-400" />
                       </div>
                       <input
@@ -305,14 +435,14 @@ const CarDetailsPage = () => {
                         ${Math.round(car.price * 0.1)}
                       </span>
                     </div>
-                    <div className="flex justify-between font-bold text-lg mt-4 pt-4 border-t border-gray-200">
+                    <div className="flex justify-between pt-4 mt-4 text-lg font-bold border-t border-gray-200">
                       <span>Total</span>
                       <span>${car.price + Math.round(car.price * 0.1)}</span>
                     </div>
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors font-medium mt-2"
+                    className="w-full py-3 mt-2 font-medium text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700"
                   >
                     Book Now
                   </button>

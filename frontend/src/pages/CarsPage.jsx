@@ -47,7 +47,7 @@ const cars = [
     id: 4,
     name: 'Audi Q7',
     image:
-      'https://images.unsplash.com/photo-1606664913224-9f39e9716dcc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+      'https://i.postimg.cc/NjSbp7B4/image.png ',
     price: 135,
     category: 'SUV',
     seats: 7,
@@ -112,7 +112,7 @@ const cars = [
     id: 9,
     name: 'Ford Mustang',
     image:
-      'https://images.unsplash.com/photo-1584345604476-8ec5f452d1f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80 ',
+      'https://i.postimg.cc/sD1Nm253/image.png',
     price: 85,
     category: 'Sports',
     seats: 4,
@@ -169,18 +169,18 @@ const CarsPage = () => {
   };
 
   return (
-    <div className="bg-gray-50 min-h-screen w-full">
-      <div className="container mx-auto px-4 py-8">
+    <div className="w-full min-h-screen bg-gray-50">
+      <div className="container px-4 py-8 mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">Available Cars</h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-800">Available Cars</h1>
           <p className="text-gray-600">Find your perfect rental from our diverse fleet</p>
         </div>
 
         {/* Search and Filter Section */}
-        <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div className="p-4 mb-6 bg-white rounded-lg shadow-sm">
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div className="relative flex-grow max-w-md">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <Search size={20} className="text-gray-400" />
               </div>
               <input
@@ -188,11 +188,11 @@ const CarsPage = () => {
                 placeholder="Search cars..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10 pr-4 py-2 w-full border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                className="w-full py-2 pl-10 pr-4 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <button
-              className="flex items-center justify-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors md:w-auto w-full"
+              className="flex items-center justify-center w-full px-4 py-2 space-x-2 text-white transition-colors bg-blue-600 rounded-md hover:bg-blue-700 md:w-auto"
               onClick={() => setShowFilters(!showFilters)}
             >
               <Filter size={18} />
@@ -203,11 +203,11 @@ const CarsPage = () => {
 
           {/* Expandable Filter Options */}
           {showFilters && (
-            <div className="mt-4 pt-4 border-t border-gray-100">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="pt-4 mt-4 border-t border-gray-100">
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {/* Price Range Filter */}
                 <div>
-                  <h3 className="font-medium text-gray-700 mb-2">Price Range</h3>
+                  <h3 className="mb-2 font-medium text-gray-700">Price Range</h3>
                   <div className="flex items-center space-x-4">
                     <span className="text-gray-500">${priceRange[0]}</span>
                     <input
@@ -224,7 +224,7 @@ const CarsPage = () => {
 
                 {/* Category Filter */}
                 <div>
-                  <h3 className="font-medium text-gray-700 mb-2">Category</h3>
+                  <h3 className="mb-2 font-medium text-gray-700">Category</h3>
                   <div className="flex flex-wrap gap-2">
                     {categories.map((category) => (
                       <label key={category} className="inline-flex items-center">
@@ -242,7 +242,7 @@ const CarsPage = () => {
 
                 {/* Fuel Type Filter */}
                 <div>
-                  <h3 className="font-medium text-gray-700 mb-2">Fuel Type</h3>
+                  <h3 className="mb-2 font-medium text-gray-700">Fuel Type</h3>
                   <div className="flex flex-wrap gap-2">
                     {fuelTypes.map((fuelType) => (
                       <label key={fuelType} className="inline-flex items-center">
@@ -260,7 +260,7 @@ const CarsPage = () => {
 
                 {/* Transmission Filter */}
                 <div>
-                  <h3 className="font-medium text-gray-700 mb-2">Transmission</h3>
+                  <h3 className="mb-2 font-medium text-gray-700">Transmission</h3>
                   <div className="flex flex-wrap gap-2">
                     {transmissions.map((transmission) => (
                       <label key={transmission} className="inline-flex items-center">
@@ -288,12 +288,12 @@ const CarsPage = () => {
         </div>
 
         {/* Car Listings */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {filteredCars.length > 0 ? (
             filteredCars.map((car) => <CarCard key={car.id} {...car} />)
           ) : (
-            <div className="col-span-full text-center py-12">
-              <p className="text-gray-500 text-lg">No cars match your current filters.</p>
+            <div className="py-12 text-center col-span-full">
+              <p className="text-lg text-gray-500">No cars match your current filters.</p>
               <button
                 onClick={() => {
                   setSearchTerm('');
@@ -302,7 +302,7 @@ const CarsPage = () => {
                   setSelectedFuelTypes([]);
                   setSelectedTransmissions([]);
                 }}
-                className="mt-4 text-blue-600 hover:text-blue-800 font-medium"
+                className="mt-4 font-medium text-blue-600 hover:text-blue-800"
               >
                 Clear all filters
               </button>

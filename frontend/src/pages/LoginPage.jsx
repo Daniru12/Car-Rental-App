@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../AuthContext.jsx';  // <-- import your AuthContext (adjust path)
 
 const LoginPage = () => {
-  const { setIsLoggedIn } = useContext(AuthContext);  // <-- useContext hook here
+  const { setIsLoggedIn , setUser } = useContext(AuthContext);  // <-- useContext hook here
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +52,8 @@ const LoginPage = () => {
 
       toast.success(data.message || 'Login successful!');
       setIsLoggedIn(true);  // <-- set login state here
-      
+       setIsLoggedIn(true);
+  setUser(data.user);
       setTimeout(() => navigate('/'), 1500);
 
     } catch (error) {
@@ -62,9 +63,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen px-4 py-12 bg-gray-50 sm:px-6 lg:px-8">
       <ToastContainer position="top-right" autoClose={3000} />
-      <div className="max-w-md w-full mx-auto">
+      <div className="w-full max-w-md mx-auto">
         <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
             Sign in to your account
@@ -79,15 +80,15 @@ const LoginPage = () => {
             </Link>
           </p>
         </div>
-        <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+        <div className="px-4 py-8 mt-8 bg-white shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Email Field */}
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700">
                 Email address
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <Mail size={18} className="text-gray-400" />
                 </div>
                 <input
@@ -111,8 +112,8 @@ const LoginPage = () => {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                 Password
               </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                   <Lock size={18} className="text-gray-400" />
                 </div>
                 <input
@@ -140,9 +141,9 @@ const LoginPage = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
                 />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="remember-me" className="block ml-2 text-sm text-gray-900">
                   Remember me
                 </label>
               </div>
@@ -157,7 +158,7 @@ const LoginPage = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                className="flex justify-center w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Sign in
               </button>

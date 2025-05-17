@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, g
+from flask import Flask, jsonify, request, g,abort
 from flask_cors import CORS
 import sqlite3
 import re
@@ -37,7 +37,23 @@ def init_db():
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS bookings (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                car_id TEXT NOT NULL,
+                car_name TEXT NOT NULL,
+                car_image TEXT NOT NULL,
+                start_date TEXT NOT NULL,
+                end_date TEXT NOT NULL,
+                location TEXT NOT NULL,
+                status TEXT NOT NULL,
+                price REAL NOT NULL,
+                FOREIGN KEY (user_id) REFERENCES users(id)
+            )
+        ''')
         db.commit()
+
 
 def hash_password(password):
     return hashlib.sha256(password.encode()).hexdigest()
@@ -122,16 +138,75 @@ def login():
         }
     }), 200
 
-@app.route('/api/profile', methods=['GET'])
-def profile():
-    # In a real app, you'd check auth token/session and get user id from that.
-    # For demo, just return the first user (or 401 if none)
+
+# Add demo data insertion (run once)
+def insert_demo_data():
+    with app.app_context():
+        db = get_db()
+        cursor = db.cursor()
+        # Check if bookings exist
+        cursor.execute('SELECT COUNT(*) FROM bookings')
+        if cursor.fetchone()[0] == 0:
+            # Assume user id 1 exists (you can create user via signup or hardcode)
+            demo_bookings = [
+                (1, '1', 'Tesla Model 3',
+                 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+                 '2023-07-15', '2023-07-18', 'New York', 'Upcoming', 267),
+                (1, '2', 'BMW X5',
+                 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+                 '2023-06-10', '2023-06-12', 'Los Angeles', 'Completed', 360),
+                (1, '3', 'Mercedes C-Class',
+                 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2031&q=80',
+                 '2023-05-22', '2023-05-25', 'Chicago', 'Completed', 285),
+            ]
+            cursor.executemany('''
+                INSERT INTO bookings (user_id, car_id, car_name, car_image, start_date, end_date, location, status, price)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ''', demo_bookings)
+            db.commit()
+
+# Add this API endpoint to get bookings for user
+@app.route('/api/bookings', methods=['GET'])
+def get_bookings():
+    # For demo: no real auth, just return bookings for user_id=1
+    user_id = 1
     db = get_db()
     cursor = db.cursor()
-    cursor.execute('SELECT id, name, email FROM users LIMIT 1')
+    cursor.execute('''
+        SELECT id, car_id, car_name, car_image, start_date, end_date, location, status, price
+        FROM bookings WHERE user_id = ?
+    ''', (user_id,))
+    rows = cursor.fetchall()
+
+    bookings = []
+    for row in rows:
+        bookings.append({
+            'id': row['id'],
+            'carId': row['car_id'],
+            'carName': row['car_name'],
+            'carImage': row['car_image'],
+            'startDate': row['start_date'],
+            'endDate': row['end_date'],
+            'location': row['location'],
+            'status': row['status'],
+            'price': row['price'],
+        })
+    return jsonify({"success": True, "bookings": bookings})
+
+# Update /api/profile to return memberSince dynamically
+@app.route('/api/profile', methods=['GET'])
+def profile():
+    db = get_db()
+    cursor = db.cursor()
+    cursor.execute('SELECT id, name, email, created_at FROM users LIMIT 1')
     user = cursor.fetchone()
     if not user:
         return jsonify({"success": False, "message": "Unauthorized"}), 401
+
+    # Calculate memberSince (just year-month from created_at)
+    from datetime import datetime
+    created = datetime.strptime(user['created_at'], '%Y-%m-%d %H:%M:%S')
+    member_since = created.strftime('%B %Y')
 
     return jsonify({
         "success": True,
@@ -140,10 +215,11 @@ def profile():
             "name": user['name'],
             "email": user['email'],
             "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
-            "memberSince": "January 2023"  # you can customize this
+            "memberSince": member_since
         }
     })
 
 if __name__ == '__main__':
     init_db()
+    insert_demo_data()  # Insert demo bookings once
     app.run(host='0.0.0.0', port=5000, debug=True)
