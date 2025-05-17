@@ -79,7 +79,7 @@ const { user } = useContext(AuthContext);  // get logged-in user
                 ) : user ? (
                   <>
                     <img
-                      src={user.avatar}
+                      src="https://i.postimg.cc/vTm3PGSR/image.png"
                       alt={user.name}
                       className="object-cover w-20 h-20 mb-4 rounded-full"
                     />
@@ -128,18 +128,7 @@ const { user } = useContext(AuthContext);  // get logged-in user
                   <CreditCard size={18} className="mr-3" />
                   Payment Methods
                 </button>
-                <button
-                  onClick={() => setActiveTab('profile')}
-                  className={`flex items-center w-full px-3 py-2 rounded-md ${
-                    activeTab === 'profile'
-                      ? 'bg-blue-50 text-blue-700'
-                      : 'text-gray-700 hover:bg-gray-100'
-                  }`}
-                >
-                  <User size={18} className="mr-3" />
-                 
-                  Profile Settings
-                </button>
+                
                 <button
                   onClick={() => setActiveTab('settings')}
                   className={`flex items-center w-full px-3 py-2 rounded-md ${
@@ -259,7 +248,7 @@ const { user } = useContext(AuthContext);  // get logged-in user
                 <h2 className="mb-4 text-xl font-bold text-gray-800">
                   {activeTab === 'favorites' && 'Favorite Cars'}
                   {activeTab === 'payment' && 'Payment Methods'}
-                   {activeTab === 'profile' && <UserProfile />}
+                   
                   {activeTab === 'settings' && 'Account Settings'}
                 </h2>
                 <p className="text-gray-500">This section is under development.</p>

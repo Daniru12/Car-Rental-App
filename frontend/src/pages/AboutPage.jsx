@@ -2,10 +2,10 @@ import React from 'react'
 import { Users, Target, History, Award } from 'lucide-react'
 const teamMembers = [
   {
-    name: 'Sarah Johnson',
+    name: 'Daniru Punsith',
     role: 'CEO & Founder',
     image:
-      'https://iamages.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80',
+      'https://i.postimg.cc/tJRhXDhF/daniru.jpg',
     bio: '15+ years in automotive industry',
   },
   {
@@ -34,19 +34,19 @@ const AboutPage = () => {
   return (
     <div className="w-full bg-white">
       {/* Hero Section */}
-      <div className="relative bg-blue-600 text-white py-24">
+      <div className="relative py-24 text-white bg-blue-600">
         <div className="absolute inset-0 z-0 opacity-20">
           <img
             src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
             alt="About Hero Background"
-            className="w-full h-full object-cover"
+            className="object-cover w-full h-full"
           />
         </div>
-        <div className="container mx-auto px-4 relative z-10">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
+        <div className="container relative z-10 px-4 mx-auto">
+          <h1 className="mb-4 text-4xl font-bold text-center md:text-5xl">
             About DrivEase
           </h1>
-          <p className="text-xl text-blue-100 text-center max-w-3xl mx-auto">
+          <p className="max-w-3xl mx-auto text-xl text-center text-blue-100">
             Revolutionizing the car rental experience with premium service and
             cutting-edge technology
           </p>
@@ -54,13 +54,13 @@ const AboutPage = () => {
       </div>
       {/* Mission and Vision */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="container px-4 mx-auto">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+              <h2 className="mb-6 text-3xl font-bold text-gray-800">
                 Our Mission
               </h2>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="leading-relaxed text-gray-600">
                 At DrivEase, we're committed to providing exceptional car rental
                 experiences through innovative solutions, transparent practices,
                 and unmatched customer service. We believe in making premium
@@ -69,10 +69,10 @@ const AboutPage = () => {
               </p>
             </div>
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">
+              <h2 className="mb-6 text-3xl font-bold text-gray-800">
                 Our Vision
               </h2>
-              <p className="text-gray-600 leading-relaxed">
+              <p className="leading-relaxed text-gray-600">
                 We envision a future where renting a car is as simple as a few
                 clicks, where quality meets convenience, and where every journey
                 begins with trust and confidence. We're driving towards a more
@@ -84,16 +84,16 @@ const AboutPage = () => {
       </section>
       {/* Values */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-gray-800">
             Our Core Values
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
                 <Users size={32} className="text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="mb-2 text-xl font-bold text-gray-800">
                 Customer First
               </h3>
               <p className="text-gray-600">
@@ -102,10 +102,10 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
                 <Target size={32} className="text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="mb-2 text-xl font-bold text-gray-800">
                 Innovation
               </h3>
               <p className="text-gray-600">
@@ -114,10 +114,10 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
                 <History size={32} className="text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="mb-2 text-xl font-bold text-gray-800">
                 Reliability
               </h3>
               <p className="text-gray-600">
@@ -126,10 +126,10 @@ const AboutPage = () => {
               </p>
             </div>
             <div className="text-center">
-              <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full">
                 <Award size={32} className="text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-2">
+              <h3 className="mb-2 text-xl font-bold text-gray-800">
                 Excellence
               </h3>
               <p className="text-gray-600">
@@ -141,24 +141,24 @@ const AboutPage = () => {
       </section>
       {/* Team Section */}
       <section className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-gray-800">
             Meet Our Team
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
             {teamMembers.map((member, index) => (
               <div key={index} className="text-center">
                 <div className="mb-4">
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-32 h-32 rounded-full mx-auto object-cover"
+                    className="object-cover w-32 h-32 mx-auto rounded-full"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800 mb-1">
+                <h3 className="mb-1 text-xl font-bold text-gray-800">
                   {member.name}
                 </h3>
-                <p className="text-blue-600 font-medium mb-2">{member.role}</p>
+                <p className="mb-2 font-medium text-blue-600">{member.role}</p>
                 <p className="text-gray-600">{member.bio}</p>
               </div>
             ))}
@@ -167,8 +167,8 @@ const AboutPage = () => {
       </section>
       {/* History Timeline */}
       <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-800 mb-12 text-center">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-gray-800">
             Our Journey
           </h2>
           <div className="max-w-3xl mx-auto">
@@ -179,7 +179,7 @@ const AboutPage = () => {
                   <div className="w-0.5 h-full bg-blue-600"></div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">2023</h3>
+                  <h3 className="mb-1 text-xl font-bold text-gray-800">2023</h3>
                   <p className="text-gray-600">
                     Expanded to 50+ locations nationwide
                   </p>
@@ -191,7 +191,7 @@ const AboutPage = () => {
                   <div className="w-0.5 h-full bg-blue-600"></div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">2020</h3>
+                  <h3 className="mb-1 text-xl font-bold text-gray-800">2020</h3>
                   <p className="text-gray-600">
                     Launched mobile app and digital platform
                   </p>
@@ -203,7 +203,7 @@ const AboutPage = () => {
                   <div className="w-0.5 h-full bg-blue-600"></div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">2018</h3>
+                  <h3 className="mb-1 text-xl font-bold text-gray-800">2018</h3>
                   <p className="text-gray-600">
                     Introduced premium vehicle fleet
                   </p>
@@ -214,7 +214,7 @@ const AboutPage = () => {
                   <div className="w-4 h-4 bg-blue-600 rounded-full"></div>
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-1">2015</h3>
+                  <h3 className="mb-1 text-xl font-bold text-gray-800">2015</h3>
                   <p className="text-gray-600">DrivEase was founded</p>
                 </div>
               </div>

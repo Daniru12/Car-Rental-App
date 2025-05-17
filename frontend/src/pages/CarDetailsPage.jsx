@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
   Calendar,
   Users,
@@ -216,7 +218,8 @@ const CarDetailsPage = () => {
   const [pickupDate, setPickupDate] = useState('');
   const [returnDate, setReturnDate] = useState('');
   const [pickupLocation, setPickupLocation] = useState('');
-
+  const navigate = useNavigate();
+  
   if (!car) {
     return (
       <div className="container px-4 py-16 mx-auto text-center">
@@ -235,19 +238,64 @@ const CarDetailsPage = () => {
     );
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Booking:', {
-      carId: car.id,
-      pickupDate,
-      returnDate,
-      pickupLocation,
-    });
-    alert('Booking submitted! In a real app, this would proceed to payment.');
+
+    const userId = 1; // Replace with real user ID later
+    const bookingData = {
+      user_id: userId,
+      car_id: car.id,
+      car_name: car.name,
+      car_image: car.image,
+      start_date: pickupDate,
+      end_date: returnDate,
+      location: pickupLocation,
+      status: "Upcoming",
+      price: car.price + Math.round(car.price * 0.1),
+    };
+
+    try {
+      const response = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to book");
+      }
+
+      // Show success toast
+      toast.success(`✅ Booking for ${car.name} confirmed!`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      });
+
+      // Redirect after toast has shown
+      setTimeout(() => {
+        navigate('/cars');
+      }, 3500); // wait longer than autoClose
+
+    } catch (error) {
+      console.error("Booking error:", error);
+      toast.error(`❌ ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+      });
+    }
   };
 
   return (
     <div className="w-full bg-gray-50">
+      <ToastContainer />
       <div className="container px-4 py-8 mx-auto">
         <Link
           to="/cars"

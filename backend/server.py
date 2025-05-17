@@ -1,13 +1,15 @@
-from flask import Flask, jsonify, request, g,abort
+from flask import Flask, jsonify, request, g
 from flask_cors import CORS
 import sqlite3
 import re
 import hashlib
 import os
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
+# Database setup
 DATABASE = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'database.db')
 
 def get_db():
@@ -108,6 +110,7 @@ def signup():
 
     return jsonify({"success": True, "message": "Signup successful!"}), 201
 
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -127,7 +130,6 @@ def login():
     if not user or user['password'] != hashed_password:
         return jsonify({"success": False, "message": "Invalid email or password"}), 401
 
-    # Return user info (excluding password)
     return jsonify({
         "success": True,
         "message": "Login successful!",
@@ -139,24 +141,22 @@ def login():
     }), 200
 
 
-# Add demo data insertion (run once)
+# Insert demo bookings
 def insert_demo_data():
     with app.app_context():
         db = get_db()
         cursor = db.cursor()
-        # Check if bookings exist
         cursor.execute('SELECT COUNT(*) FROM bookings')
         if cursor.fetchone()[0] == 0:
-            # Assume user id 1 exists (you can create user via signup or hardcode)
             demo_bookings = [
                 (1, '1', 'Tesla Model 3',
-                 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+                 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80 ',
                  '2023-07-15', '2023-07-18', 'New York', 'Upcoming', 267),
                 (1, '2', 'BMW X5',
-                 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80',
+                 'https://images.unsplash.com/photo-1549399542-7e3f8b79c341?ixlib=rb-4.0.3&auto=format&fit=crop&w=2071&q=80 ',
                  '2023-06-10', '2023-06-12', 'Los Angeles', 'Completed', 360),
                 (1, '3', 'Mercedes C-Class',
-                 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2031&q=80',
+                 'https://images.unsplash.com/photo-1616422285623-13ff0162193c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2031&q=80 ',
                  '2023-05-22', '2023-05-25', 'Chicago', 'Completed', 285),
             ]
             cursor.executemany('''
@@ -165,35 +165,75 @@ def insert_demo_data():
             ''', demo_bookings)
             db.commit()
 
-# Add this API endpoint to get bookings for user
+
+# GET Bookings
 @app.route('/api/bookings', methods=['GET'])
 def get_bookings():
-    # For demo: no real auth, just return bookings for user_id=1
-    user_id = 1
+    user_id = 1  # For demo purposes
     db = get_db()
     cursor = db.cursor()
+
     cursor.execute('''
         SELECT id, car_id, car_name, car_image, start_date, end_date, location, status, price
-        FROM bookings WHERE user_id = ?
+        FROM bookings 
+        WHERE user_id = ?
     ''', (user_id,))
+
     rows = cursor.fetchall()
 
-    bookings = []
-    for row in rows:
-        bookings.append({
-            'id': row['id'],
-            'carId': row['car_id'],
-            'carName': row['car_name'],
-            'carImage': row['car_image'],
-            'startDate': row['start_date'],
-            'endDate': row['end_date'],
-            'location': row['location'],
-            'status': row['status'],
-            'price': row['price'],
-        })
+    bookings = [{
+        'id': row['id'],
+        'carId': row['car_id'],
+        'carName': row['car_name'],
+        'carImage': row['car_image'],
+        'startDate': row['start_date'],
+        'endDate': row['end_date'],
+        'location': row['location'],
+        'status': row['status'],
+        'price': row['price'],
+    } for row in rows]
+
     return jsonify({"success": True, "bookings": bookings})
 
-# Update /api/profile to return memberSince dynamically
+
+# POST Booking
+@app.route('/api/bookings', methods=['POST'])
+def create_booking():
+    data = request.get_json()
+
+    if not data:
+        return jsonify({"success": False, "message": "No input data provided"}), 400
+
+    required_fields = ['user_id', 'car_id', 'car_name', 'car_image', 'start_date', 'end_date', 'location', 'price']
+    for field in required_fields:
+        if field not in data:
+            return jsonify({"success": False, "message": f"Missing required field: {field}"}), 400
+
+    try:
+        db = get_db()
+        cursor = db.cursor()
+        cursor.execute('''
+            INSERT INTO bookings (user_id, car_id, car_name, car_image, start_date, end_date, location, status, price)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            data['user_id'],
+            data['car_id'],
+            data['car_name'],
+            data['car_image'],
+            data['start_date'],
+            data['end_date'],
+            data['location'],
+            data.get('status', 'Upcoming'),
+            data['price']
+        ))
+        db.commit()
+        return jsonify({"success": True, "message": "Booking created successfully"}), 201
+    except Exception as e:
+        db.rollback()
+        return jsonify({"success": False, "message": str(e)}), 500
+
+
+# Profile endpoint
 @app.route('/api/profile', methods=['GET'])
 def profile():
     db = get_db()
@@ -203,8 +243,6 @@ def profile():
     if not user:
         return jsonify({"success": False, "message": "Unauthorized"}), 401
 
-    # Calculate memberSince (just year-month from created_at)
-    from datetime import datetime
     created = datetime.strptime(user['created_at'], '%Y-%m-%d %H:%M:%S')
     member_since = created.strftime('%B %Y')
 
@@ -214,10 +252,11 @@ def profile():
             "id": user['id'],
             "name": user['name'],
             "email": user['email'],
-            "avatar": "https://randomuser.me/api/portraits/men/32.jpg",
+            "avatar": "https://randomuser.me/api/portraits/men/32.jpg ",
             "memberSince": member_since
         }
     })
+
 
 if __name__ == '__main__':
     init_db()
