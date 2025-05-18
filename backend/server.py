@@ -93,7 +93,10 @@ def login():
 
 @app.route('/api/bookings', methods=['GET'])
 def get_bookings():
-    user_id = request.args.get('user_id', '1')
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"success": False, "message": "Missing user_id parameter"}), 400
+
     bookings = list(bookings_collection.find({"user_id": user_id}))
     for b in bookings:
         b['id'] = str(b['_id'])
@@ -112,11 +115,44 @@ def create_booking():
     bookings_collection.insert_one(data)
     return jsonify({"success": True, "message": "Booking created successfully"}), 201
 
+@app.route('/api/bookings/<booking_id>', methods=['PUT'])
+def update_booking(booking_id):
+    data = request.get_json()
+    if not data:
+        return jsonify({"success": False, "message": "No input data provided"}), 400
+
+    # Optional: Validate allowed fields only
+    allowed_fields = {'user_id', 'car_id', 'car_name', 'car_image', 'start_date', 'end_date', 'location', 'status', 'price'}
+    update_data = {k: v for k, v in data.items() if k in allowed_fields}
+    if not update_data:
+        return jsonify({"success": False, "message": "No valid fields to update"}), 400
+
+    try:
+        result = bookings_collection.update_one(
+            {'_id': ObjectId(booking_id)},
+            {'$set': update_data}
+        )
+    except Exception:
+        return jsonify({"success": False, "message": "Invalid booking ID"}), 400
+
+    if result.matched_count == 0:
+        return jsonify({"success": False, "message": "Booking not found"}), 404
+
+    return jsonify({"success": True, "message": "Booking updated successfully"})
+
 @app.route('/api/profile', methods=['GET'])
 def profile():
-    user = users_collection.find_one()  # For demo only
+    user_id = request.args.get('user_id')
+    if not user_id:
+        return jsonify({"success": False, "message": "Missing user_id parameter"}), 400
+
+    try:
+        user = users_collection.find_one({"_id": ObjectId(user_id)})
+    except Exception:
+        return jsonify({"success": False, "message": "Invalid user ID"}), 400
+
     if not user:
-        return jsonify({"success": False, "message": "Unauthorized"}), 401
+        return jsonify({"success": False, "message": "User not found"}), 404
 
     created = user.get('created_at', datetime.utcnow())
     member_since = created.strftime('%B %Y')
